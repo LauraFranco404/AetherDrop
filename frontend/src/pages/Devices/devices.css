@@ -1,0 +1,100 @@
+.subnavbar
+{
+    background-color: var(--background-color-1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    
+    border-bottom: 1px var(--gray-1) solid;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.create-product-button{
+    border-style: none;
+    background-color: var(--primary-color-3);
+    color: var(--background-color-1);
+    padding: 10px 15px 10px 15px;
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+.create-product-button:hover{
+    background-color: var(--primary-color-4);
+}
+
+.create-product-button-pressed{
+    border-style: none;
+    background-color: var(--primary-color-4);
+    color: var(--background-color-1);
+    padding: 10px 15px 10px 15px;
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+.create-product-button-pressed:hover{
+    background-color: var(--primary-color-3);
+}
+
+
+
+.devices-title{
+    font-size: 20pt;
+    font-weight: 700;
+}
+
+.devices-container{
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+    justify-content: space-between;
+}
+
+.elements-container{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    column-gap: 20px;
+    padding: 20px;
+}
+
+.create-product-title{
+    font-weight: 900;
+    font-size: 20pt;
+}
+
+.create-product-menu{
+    background-color: var(--background-color-1);
+    border-radius: 20px;
+    border: 1px var(--gray-1) solid;
+    min-width: 400px;
+    height: fit-content;
+    padding: 20px;
+}
+
+
+.separator-line{
+    width: 100%;
+    background-color: var(--gray-1);
+    height: 1px;
+    margin: 20px 0 20px 0;
+}
+
+.create-product-menu form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.create-product-menu form input{
+    padding: 10px;
+    border-radius: 2px;
+    border-style: none;
+    background-color: var(--background-color-3);
+}
+
+.create-product-menu form input:focus{
+    outline: 1px var(--primary-color-3) solid;
+}

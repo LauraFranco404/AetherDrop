@@ -1,0 +1,116 @@
+
+.navbarContainer {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px var(--gray-1) solid; /* Colores constantes definidos en index.css */
+    padding: 0px 0px 0 0px;
+    margin: 0px;
+    text-align: center;
+    justify-content: left;
+    font-size: 15pt;
+    font-weight: 100;
+    background-color: var(--navbar-color);
+}
+
+
+.navItem {
+    text-decoration: none;
+    height: 100%;
+    color: var(--text-color-1); /* Colores constantes definidos en index.css */
+    display: flex;
+    align-items: center;
+    padding: 0 2rem 0 2rem;
+}
+
+.navItem:hover {
+    background-color: var(--primary-color-highlight-1); /* Colores constantes definidos en index.css */
+}
+
+.selectedItem {
+    border-bottom: 3px solid var(--background-color-1); /* Colores constantes definidos en index.css */
+}
+
+.loginButton {
+    margin: 0 0 0 auto;
+    padding: 0 1rem 0 1rem;
+    border-radius: 10px;
+    background-color: var(--primary-color-3); /* Colores constantes definidos en index.css */
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 15pt;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    height: 70%;
+    cursor: pointer; /* Cambia el cursor a un puntero al pasar el mouse sobre el botón */
+}
+
+.loginButton:hover {
+    background-color: var(--primary-color-4);
+}
+
+.iconStyle {
+    pointer-events: none;
+    user-select: none;
+    padding: 20px 15px 15px 15px;
+    color: var(--primary-color-3);
+    width: 35px;
+    height: 35px;
+}
+
+.loginContainer {
+    margin-left: auto;
+    display: flex;
+}
+
+.userMenu {
+    position: relative;
+    height: 100%;
+    margin-left: auto;
+    /*margin-right: 10px;
+*/
+}
+
+.userButton {
+    background-color: var(--primary-color-3);
+    cursor: pointer;
+    height: 60px;
+    font-weight: 100;
+    font-size: 15pt;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0px 15px 0 15px;
+    color: var(--text-color-1);
+    border-style: none;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    padding: 15px;
+    width:250px;
+    min-height:200px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.logoutButton {
+    margin-top: 10px;
+    background-color: var(--gray-1);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 16px;
+    height:30px;
+}
+
+.logoutButton:hover {
+    background-color: var(--primary-color-4);
+}

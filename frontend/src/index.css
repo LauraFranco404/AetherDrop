@@ -1,0 +1,22 @@
+:root {
+  --primary-color-highlight-1: #2f49dc;
+  --primary-color-1: #193af5;
+  --primary-color-2: #0828e0;
+  --primary-color-3: #0a1889;
+  --primary-color-4: #101d69;
+  --navbar-color: #2438ac;
+  --text-color-1: #ffffff;
+  --text-color-2: #000000;
+  --background-color-1: #ffffff;
+  --background-color-2: #eeeef3;
+  --background-color-3: #ebebeb;
+  --gray-1: #c2c2c2;
+  --gray-2: #aaaaaa;
+  --error-color-1: #ff4b4b;
+}
+
+
+body {
+  background-color: var(--background-color-2);
+  margin: 0;
+}

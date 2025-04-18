@@ -1,0 +1,44 @@
+.delivery-element{
+    background-color: var(--background-color-1);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.delivery-title{
+    font-weight: 900;
+}
+.delivery-info{
+    width: 100%;
+}
+
+.delivery-info th{
+    padding: 0 20px 0 20px;
+    font-weight: 400;
+}
+
+.delivery-info td{
+    text-align: center;
+}
+
+.delivery-info tr:first-child th{
+    padding: 0 20px 0 20px;
+    font-weight: 900;
+}
+
+.remove-product-button {
+    background-color: var(--primary-color-2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.remove-product-button:hover {
+    background-color: var(--primary-color-1);
+}
+

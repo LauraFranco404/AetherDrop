@@ -1,0 +1,58 @@
+.element-container{
+    background-color: var(--background-color-1);
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    padding: 30px 20px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+.remove-button{
+    font-size: 15pt;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    border-style: none;
+    background-color: var(--background-color-1);
+    color: var(--gray-1);
+}
+
+.remove-button:hover{
+    color: var(--primary-color-3);
+}
+
+.increase-decrease-buttons{
+    margin-top: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+
+.increase-decrease-buttons button{
+    border-style: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--background-color-1);
+    border: 1px var(--gray-1) solid;
+
+}
+
+.increase-decrease-buttons button:hover
+{
+    border: 3px var(--primary-color-3) solid;
+}
+
+.element-container span:first-child{
+    font-weight: 900;
+}
+.element-container span{
+    display: block;
+
+}

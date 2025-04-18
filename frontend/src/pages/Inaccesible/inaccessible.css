@@ -1,0 +1,27 @@
+.inaccesible-container {
+    background-color: var(--background-color-2);
+    color: var(--text-color-1);
+    font-size: 20pt;
+    height: 100vh;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 15rem;
+}
+
+.inaccesible-title {
+    font-weight: 900;
+    font-size: 45pt;
+}
+
+.inaccesible-message {
+    display: block;
+}
+
+.inaccesible-link {
+    color: var(--primary-color-1);
+    padding: 0 5px 0 5px;
+}
+
+.inaccesible-link:hover {
+}
