@@ -107,7 +107,7 @@ export default function Storedevices() {
                         className={isMenuVisible ? "create-product-button-pressed" : "create-product-button"}
                         onClick={toggleMenu}
                     >
-                        Create Product
+                        Create Device
                     </button>
                 </div>
             </div>

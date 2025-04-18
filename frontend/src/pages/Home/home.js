@@ -1,8 +1,14 @@
 import "./home.css"
 import Navbar from "../../components/Navbar/Navbar";
 import {Link, useLocation} from "react-router-dom";
+import MapView from '../../components/Map/MapView';
 
-  function Home() {
+const puntosEjemplo = [
+  { type: 'drone', lat: 3.3469, lng: -76.5325, info: 'Dron en misión A' },
+  { type: 'robot', lat: 3.3475, lng: -76.5336, info: 'Robot inspeccionando' },
+];
+
+function Home() {
     const userData = JSON.parse(sessionStorage.getItem("user"));
     const isAdmin = userData?.type === "admin";
     const isLoggedIn = userData?true:false;
