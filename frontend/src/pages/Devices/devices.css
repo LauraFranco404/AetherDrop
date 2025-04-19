@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 
-.create-product-button{
+.create-device-button{
     border-style: none;
     background-color: var(--primary-color-3);
     color: var(--background-color-1);
@@ -21,11 +21,11 @@
     border-radius: 10px;
 }
 
-.create-product-button:hover{
+.create-device-button:hover{
     background-color: var(--primary-color-4);
 }
 
-.create-product-button-pressed{
+.create-device-button-pressed{
     border-style: none;
     background-color: var(--primary-color-4);
     color: var(--background-color-1);
@@ -34,10 +34,20 @@
     border-radius: 10px;
 }
 
-.create-product-button-pressed:hover{
+.create-device-button-pressed:hover{
     background-color: var(--primary-color-3);
 }
 
+.devices-location{
+    margin: 20px 0 20px 20px;
+}
+
+.stickymap-container{
+    width: 700px;
+    height: 700px;
+    top: 20px;
+    position: sticky;
+}
 
 
 .devices-title{
@@ -49,25 +59,29 @@
     display: flex;
     flex-direction: row;
     align-items: normal;
-    justify-content: space-between;
+    justify-content:first baseline;
 }
+
+
 
 .elements-container{
     display: flex;
-    flex-flow: row wrap;
     gap: 20px;
+    flex-flow: wrap;
+    align-content: flex-start;
     column-gap: 20px;
     padding: 20px;
 }
 
-.create-product-title{
+.create-device-title{
     font-weight: 900;
     font-size: 20pt;
 }
 
-.create-product-menu{
+.create-device-menu{
     background-color: var(--background-color-1);
     border-radius: 20px;
+    margin-left: auto;
     border: 1px var(--gray-1) solid;
     min-width: 400px;
     height: fit-content;
@@ -82,19 +96,19 @@
     margin: 20px 0 20px 0;
 }
 
-.create-product-menu form{
+.create-device-menu form{
     display: flex;
     flex-direction: column;
     gap: 10px
 }
 
-.create-product-menu form input{
+.create-device-menu form input{
     padding: 10px;
     border-radius: 2px;
     border-style: none;
     background-color: var(--background-color-3);
 }
 
-.create-product-menu form input:focus{
+.create-device-menu form input:focus{
     outline: 1px var(--primary-color-3) solid;
 }

@@ -1,0 +1,204 @@
+import React, { useState, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvents, Polyline } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import map_icon1 from '../../icons/map_icon1.png';
+import map_icon2 from '../../icons/map_icon2.png';
+import Navbar from '../../components/Navbar/Navbar';
+import PathsSideBar from '../../components/Paths/paths_sidebar';
+
+const center = [3.347133, -76.533004];
+const bounds = L.latLngBounds(
+  [center[0] - 0.005, center[1] - 0.005],
+  [center[0] + 0.005, center[1] + 0.005]
+);
+
+const iconDefault = new L.Icon({
+  iconUrl: map_icon1,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
+
+const iconSelected = new L.Icon({
+  iconUrl: map_icon2,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
+
+function EditableMap() {
+  const [editMode, setEditMode] = useState(false);
+  const [mode, setMode] = useState('add');
+  const [nodes, setNodes] = useState([]);
+  const [connections, setConnections] = useState([]);
+  const [selectedNode, setSelectedNode] = useState(null);
+  const draggedNodeRef = useRef(null);
+
+  const handleMapClick = (e) => {
+    if (!editMode) return;
+
+    const { lat, lng } = e.latlng;
+
+    if (mode === 'add') {
+      setNodes((prev) => [...prev, { id: Date.now(), lat, lng }]);
+    }
+  };
+
+  const toggleEditMode = () => {
+    setEditMode((prev) => !prev);
+    setMode('add');
+    setSelectedNode(null);
+  };
+
+  const handleNodeClick = (node) => {
+    if (!editMode) return;
+
+    if (mode === 'connect') {
+      if (selectedNode && selectedNode.id !== node.id) {
+        setConnections((prev) => [...prev, [selectedNode.id, node.id]]);
+        setSelectedNode(null);
+      } else {
+        setSelectedNode(node);
+      }
+    } else if (mode === 'delete') {
+      setNodes((prev) => prev.filter((n) => n.id !== node.id));
+      setConnections((prev) => prev.filter(([a, b]) => a !== node.id && b !== node.id));
+    } else if (mode === 'move') {
+      setSelectedNode(node);
+    }
+  };
+
+  const handleDragStart = (e, node) => {
+    if (mode === 'move') {
+      draggedNodeRef.current = node.id;
+    }
+  };
+
+  const handleDragging = (e, node) => {
+    if (mode === 'move' && draggedNodeRef.current === node.id) {
+      const { lat, lng } = e.target.getLatLng();
+      setNodes((prev) =>
+        prev.map((n) =>
+          n.id === node.id ? { ...n, lat, lng } : n
+        )
+      );
+    }
+  };
+
+  const handleDragEnd = (e, node) => {
+    if (mode === 'move' && draggedNodeRef.current === node.id) {
+      const { lat, lng } = e.target.getLatLng();
+      setNodes((prev) => prev.map((n) => n.id === node.id ? { ...n, lat, lng } : n));
+      draggedNodeRef.current = null;
+      setSelectedNode(null);
+    }
+  };
+
+  const resolvePosition = (id) => {
+    const node = nodes.find((n) => n.id === id);
+    return [node.lat, node.lng];
+  };
+
+  const MapClickHandler = () => {
+    useMapEvents({
+      click: handleMapClick
+    });
+    return null;
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+    setSelectedNode(null);
+    setMode('add');
+  };
+
+  const handleSave = () => {
+    const payload = {
+      nodes: nodes.map(({ id, lat, lng }) => ({ id, lat, lng })),
+      connections,
+    };
+
+    fetch('http://localhost:8000/updatepaths/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert('Data saved successfully!');
+      setEditMode(false);
+    })
+    .catch(err => {
+      alert('Error saving data');
+      console.error(err);
+    });
+  };
+
+  return (
+    <div>
+    <Navbar></Navbar>
+    <div className='paths-container'>
+        <PathsSideBar className="bar-skip"></PathsSideBar>
+        <div className='paths-content bar-skip'>
+            <div className='paths-map'>
+                <MapContainer
+                    center={center}
+                    zoom={17}
+                    minZoom={17}
+                    maxZoom={18}
+                    maxBounds={bounds}
+                    maxBoundsViscosity={1.0}
+                    style={{ height: '750px', width: '750px' }}
+                >
+                
+                <MapClickHandler />
+                    <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; OpenStreetMap contributors'
+                    />
+                    {nodes.map((node) => (
+                    <Marker
+                        key={node.id}
+                        position={[node.lat, node.lng]}
+                        icon={selectedNode && selectedNode.id === node.id ? iconSelected : iconDefault}
+                        eventHandlers={{
+                        click: () => handleNodeClick(node),
+                        dragstart: (e) => handleDragStart(e, node),
+                        drag: (e) => handleDragging(e, node),
+                        dragend: (e) => handleDragEnd(e, node),
+                        }}
+                        draggable={mode === 'move'}
+                    />
+                    ))}
+                    {connections.map(([a, b], index) => (
+                    <Polyline
+                        key={index}
+                        positions={[resolvePosition(a), resolvePosition(b)]}
+                        color="blue"
+                    />
+                    ))}
+                </MapContainer>
+                
+            </div>
+            <div style={{ marginBottom: '10px' }}>
+            <button onClick={toggleEditMode}>{editMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}</button>
+            {editMode && (
+            <>
+                <button onClick={() => setMode('add')}>Add Nodes</button>
+                <button onClick={() => setMode('connect')}>Connect Nodes</button>
+                <button onClick={() => setMode('delete')}>Delete Nodes</button>
+                <button onClick={() => setMode('move')}>Move Nodes</button>
+                <button onClick={handleSave}>Save</button>
+                <button onClick={handleCancel}>Cancel</button>
+            </>
+            )}
+            </div>
+        </div>
+
+    </div>
+</div>
+  );
+}
+
+export default EditableMap;

@@ -72,7 +72,7 @@
     background-color: var(--primary-color-4);
 }
 
-.product-form input, .admin-form input{
+.device-form input, .admin-form input{
     padding: 10px;
     border-radius: 10px 0 0 10px;
     border-style: none;
@@ -80,12 +80,12 @@
     outline: 1px var(--gray-2) solid;
 }
 
-.product-form input:focus, .admin-form input:focus{
+.device-form input:focus, .admin-form input:focus{
     outline: 1px var(--primary-color-3) solid;
 }
 
 
-.product-form button, .admin-form button{
+.device-form button, .admin-form button{
     padding: 10px;
     border-radius: 0 10px 10px 0;
     border-style: none;
@@ -94,7 +94,7 @@
     font-weight: 700;
     outline: 1px var(--primary-color-3) solid;
 }
-.product-form button:hover, .admin-form button:hover{
+.device-form button:hover, .admin-form button:hover{
     background-color: var(--primary-color-3);
 }
 

@@ -2,32 +2,36 @@ import "./devices.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Deviceselement from "../../components/devices_element";
 import { useState, useEffect } from "react";
+import MapDevices from "../../components/Map/MapDevices";
+
 
 export default function Storedevices() {
     const [isMenuVisible, setMenuVisible] = useState(false); // State to control menu visibility
-    const [elements, setElements] = useState([]); // State for products
+    const [elements, setElements] = useState([]); // State for devices
     const [formData, setFormData] = useState({
-        productid: "",
+        deviceid: "",
         name: "",
-        amount: "",
-        unitprice: ""
-    }); // State for form data
+        type: "drone",
+        lat: 3.347133,
+        lng: -76.533004,
+    });
+    
 
-    // Fetch products from the API
+    // Fetch devices from the API
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/getallproducts/")
+        fetch("http://127.0.0.1:8000/getalldevices/")
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch products. Status code: " + response.status);
+                    throw new Error("Failed to fetch devices. Status code: " + response.status);
                 }
                 return response.json();
             })
             .then((data) => {
-                setElements(data.products); // Save products to state
+                setElements(data.devices); // Save devices to state
             })
             .catch((error) => {
                 console.error(error);
-                alert("There was a problem loading the products: " + error.message);
+                alert("There was a problem loading the devices: " + error.message);
             });
     }, []); // Runs only once when the component mounts
 
@@ -35,6 +39,15 @@ export default function Storedevices() {
         setMenuVisible(!isMenuVisible); // Toggle menu visibility
     };
 
+
+    const handleSliderChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: parseFloat(value)
+        }));
+    };
+    
     // Handle form input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -43,6 +56,7 @@ export default function Storedevices() {
             [name]: value
         }));
     };
+    
 
     // Submit form data
     const handleSubmit = (e) => {
@@ -50,9 +64,7 @@ export default function Storedevices() {
 
         // Validate if numeric fields are valid
         if (
-            isNaN(formData.productid) || formData.productid.trim() === "" ||
-            isNaN(formData.amount) || formData.amount.trim() === "" ||
-            isNaN(formData.unitprice) || formData.unitprice.trim() === ""
+            isNaN(formData.deviceid) || formData.deviceid.trim() === ""
         ) {
             alert("Please enter valid numeric values.");
             return;
@@ -60,13 +72,15 @@ export default function Storedevices() {
 
         // Convert numeric fields to numbers
         const dataToSend = {
-            productid: parseInt(formData.productid),
+            deviceid: parseInt(formData.deviceid),
             name: formData.name,
-            amount: parseInt(formData.amount),
-            unitprice: parseFloat(formData.unitprice)
+            type: formData.type,
+            lat: formData.lat,
+            lng: formData.lng
         };
+        
 
-        fetch("http://127.0.0.1:8000/createproduct/", {
+        fetch("http://127.0.0.1:8000/createdevice/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -76,7 +90,7 @@ export default function Storedevices() {
             .then((response) => {
                 return response.json().then((data) => ({
                     status: response.status,
-                    message: data.message || "Product created successfully.",
+                    message: data.message || "Device created successfully.",
                     error: data.error || null
                 }));
             })
@@ -86,7 +100,7 @@ export default function Storedevices() {
                 } else {
                     alert(result.message + " | Status code: " + result.status);
                 }
-                setFormData({ productid: "", name: "", amount: "", unitprice: "" }); // Clear form
+                setFormData({ deviceid: "", name: "" }); // Clear form
                 window.location.reload(); // Reload the page
             })
             .catch((error) => {
@@ -104,7 +118,7 @@ export default function Storedevices() {
                 </div>
                 <div>
                     <button
-                        className={isMenuVisible ? "create-product-button-pressed" : "create-product-button"}
+                        className={isMenuVisible ? "create-device-button-pressed" : "create-device-button"}
                         onClick={toggleMenu}
                     >
                         Create Device
@@ -112,57 +126,80 @@ export default function Storedevices() {
                 </div>
             </div>
             <div className="devices-container">
+                <div className="devices-location">
+                    <div className="stickymap-container">
+                        <MapDevices points={elements} />
+                    </div>
+                </div>
                 <div className="elements-container">
                     {elements.length > 0 ? (
-                        elements.map((product) => (
-                            <Deviceselement key={product.productid} product={product} />
+                        elements.map((device) => (
+                            <Deviceselement key={device.deviceid} device={device} />
                         ))
                     ) : (
-                        <p>Loading products...</p>
+                        <p>Loading devices...</p>
                     )}
                 </div>
                 {isMenuVisible && (
-                    <div className="create-product-menu">
-                        <span className="create-product-title">Create Product</span>
-                        <div className="separator-line"></div>
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                name="productid"
-                                placeholder="Product ID"
-                                type="number"
-                                value={formData.productid}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <input
-                                name="name"
-                                placeholder="Product Name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <input
-                                name="amount"
-                                placeholder="Product Amount"
-                                type="number"
-                                value={formData.amount}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <input
-                                name="unitprice"
-                                placeholder="Unit Price"
-                                type="number"
-                                step="0.01"
-                                value={formData.unitprice}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <button type="submit" className="create-product-button">
-                                Create Product
-                            </button>
-                        </form>
-                    </div>
+                    <div className="create-device-menu">
+                    <span className="create-device-title">Create Device</span>
+                    <div className="separator-line"></div>
+                    <form onSubmit={handleSubmit}>
+                    <input
+                        name="deviceid"
+                        placeholder="Device ID"
+                        type="number"
+                        value={formData.deviceid}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <input
+                        name="name"
+                        placeholder="Device Name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <select
+                        name="type"
+                        value={formData.type}
+                        onChange={handleInputChange}
+                    >
+                        <option value="drone">Drone</option>
+                        <option value="robot">Robot</option>
+                    </select>
+
+                    <label>
+                        Latitud: {formData ? formData.lat: 0}
+                        <input
+                            type="range"
+                            name="lat"
+                            min={3.347133 - 0.005}
+                            max={3.347133 + 0.005}
+                            step={0.00001}
+                            value={formData.lat}
+                            onChange={handleSliderChange}
+                        />
+                    </label>
+                    <label>
+                        Longitud: {formData ? formData.lng: 0}
+                        <input
+                            type="range"
+                            name="lng"
+                            min={-76.533004 - 0.005}
+                            max={-76.533004 + 0.005}
+                            step={0.00001}
+                            value={formData.lng}
+                            onChange={handleSliderChange}
+                        />
+                    </label>
+
+                    <button type="submit" className="create-device-button">
+                        Create Device
+                    </button>
+                </form>
+
+                </div>
                 )}
             </div>
         </div>

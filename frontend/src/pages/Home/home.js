@@ -1,7 +1,7 @@
 import "./home.css"
 import Navbar from "../../components/Navbar/Navbar";
 import {Link, useLocation} from "react-router-dom";
-import MapView from '../../components/Map/MapView';
+import MapView from '../../components/Map/MapDevices';
 
 const puntosEjemplo = [
   { type: 'drone', lat: 3.3469, lng: -76.5325, info: 'Dron en misión A' },

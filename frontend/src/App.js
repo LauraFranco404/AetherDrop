@@ -12,6 +12,10 @@ import Login from './pages/Login/login';
 import CreateDeliveries from './pages/Deliveries/create_deliveries';
 import SearchDeliveries from './pages/Deliveries/search_deliveries';
 import Inaccessible from './pages/Inaccesible/inaccesible';
+import Paths from './pages/Paths/paths'
+import PathsDrone from './pages/Paths/pathsdrone';
+import PathsRobot from './pages/Paths/pathsrobot';
+import PathsInterestPoints from './pages/Paths/pathsinterest';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -59,6 +63,10 @@ function App() {
         <Route path="/admins/registeradmin" element={isAdmin ? <Registeradmin /> : <Inaccessible />} />
         <Route path="/admins/deleteadmin" element={isAdmin ? <Deleteadmin /> : <Inaccessible />} />
         <Route path="/admins/updateadmin" element={isAdmin ? <Updateadmin /> : <Inaccessible />} />
+        <Route path="/paths" element={isAdmin? <Paths/>:<Inaccessible/>}/>
+        <Route path="/paths/pathsdrone" element={isAdmin? <PathsDrone/>:<Inaccessible/>}/>
+        <Route path="/paths/pathsrobot" element={isAdmin? <PathsRobot/>:<Inaccessible/>}/>
+        <Route path="/paths/pathsinterest" element={isAdmin? <PathsInterestPoints/>:<Inaccessible/>}/>
         <Route path="/devices" element={isAdmin ? <Devices /> : <Inaccessible />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

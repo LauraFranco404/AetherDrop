@@ -28,7 +28,7 @@
     font-weight: 900;
 }
 
-.remove-product-button {
+.remove-device-button {
     background-color: var(--primary-color-2);
     color: white;
     border: none;
@@ -38,7 +38,7 @@
     transition: 0.3s;
 }
 
-.remove-product-button:hover {
+.remove-device-button:hover {
     background-color: var(--primary-color-1);
 }
 

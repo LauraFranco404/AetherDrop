@@ -55,15 +55,15 @@ def getDeliveriesByadminID(request):
 
     
 @csrf_exempt
-def sellProducts(request):
+def createDelivery(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
             adminid = data.get("adminid")
-            products = data.get("products", [])
+            devs = data.get("devices", [])
 
-            if not products:
-                return JsonResponse({"error": "No products provided"}, status=400)
+            if not devs:
+                return JsonResponse({"error": "No devices provided"}, status=400)
 
             if not adminid or not users.find_one({"documentid": adminid}):
                 return JsonResponse({"error": "admin not found"}, status=404)
@@ -73,26 +73,26 @@ def sellProducts(request):
 
             with db.client.start_session() as session:
                 with session.start_transaction(write_concern=WriteConcern("majority")):
-                    product_ids = [p["productid"] for p in products]
-                    existing_products = list(devices.find({"productid": {"$in": product_ids}}, session=session))
-                    existing_product_map = {p["productid"]: p for p in existing_products}
+                    device_ids = [p["deviceid"] for p in devs]
+                    existing_devices = list(devices.find({"deviceid": {"$in": device_ids}}, session=session))
+                    existing_device_map = {p["deviceid"]: p for p in existing_devices}
 
                     updates = []
-                    for product in products:
-                        productid = product.get("productid")
-                        amount = product.get("amount", 0)
+                    for device in devs:
+                        deviceid = device.get("deviceid")
+                        amount = device.get("amount", 0)
 
-                        if productid is None or amount <= 0:
-                            raise ValueError("Invalid product data")
+                        if deviceid is None or amount <= 0:
+                            raise ValueError("Invalid device data")
 
-                        existing_product = existing_product_map.get(productid)
-                        if not existing_product:
-                            raise ValueError(f"Product with id {productid} not found")
-                        if existing_product["amount"] < amount:
-                            raise ValueError(f"Insufficient stock for product {productid}")
+                        existing_device = existing_device_map.get(deviceid)
+                        if not existing_device:
+                            raise ValueError(f"Device with id {deviceid} not found")
+                        if existing_device["amount"] < amount:
+                            raise ValueError(f"Insufficient stock for device {deviceid}")
 
                         updates.append({
-                            "filter": {"productid": productid},
+                            "filter": {"deviceid": deviceid},
                             "update": {"$inc": {"amount": -amount}}
                         })
 

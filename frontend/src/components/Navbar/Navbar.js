@@ -12,6 +12,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const adminsActive = location.pathname.startsWith("/admins");
     const deliveriesActive = location.pathname.startsWith("/deliveries");
+    const pathsActive = location.pathname.startsWith("/paths");
 
     const handleLogout = () => {
         sessionStorage.removeItem("user");
@@ -42,7 +43,12 @@ export default function Navbar() {
                     Devices
                 </Link>
             }
-            { userData &&
+            {isAdmin &&
+                <Link to={"/paths"} className={`${styles.navItem} ${pathsActive ? styles.selectedItem : ""}`}>
+                    Paths
+                </Link>
+            }
+            {userData &&
                 <Link to={"/deliveries"} className={`${styles.navItem} ${deliveriesActive ? styles.selectedItem : ""}`}>
                     Deliveries
                 </Link>

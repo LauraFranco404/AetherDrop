@@ -1,0 +1,47 @@
+.bar-skip{
+    padding-top: 60px;
+}
+
+.node-icon {
+    background-image: url('../../icons/map_icon1.png');
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .node-icon.selected {
+    background-image: url('../../icons/map_icon2.png');
+  }
+  
+
+.paths-container{
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    position: absolute;
+    z-index: -1;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.paths-content{
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.paths-map{
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paths-map-container{
+    width: 750px;
+    height: 750px;
+}
