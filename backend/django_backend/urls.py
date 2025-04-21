@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('devices.urls')),
     path('', include('deliveries.urls')),
     path('', include('auth.urls')),
+    path('', include('paths.urls')),
 ]

@@ -19,6 +19,7 @@
     border-style: none;
     background-color: var(--background-color-1);
     color: var(--gray-1);
+    
 }
 
 .remove-button:hover{
