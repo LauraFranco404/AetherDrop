@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar/Navbar";
-import './admins_management.css';
-import './admins_form.css';
+import './managers.css';
+import './managers_form.css';
 
-export default function Registeradmin() {
+export default function Registermanager() {
     const [formData, setFormData] = useState({
         documentid: "",
         name: "",
@@ -58,11 +58,11 @@ export default function Registeradmin() {
             name: formData.name,
             lastname: formData.lastname,
             datebirth: formData.datebirth,
-            type: "admin",
+            type: "manager",
             password: formData.password
         };
 
-        fetch("http://127.0.0.1:8000/addadmin/", {
+        fetch("http://127.0.0.1:8000/addmanager/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dataToSend)
@@ -76,7 +76,7 @@ export default function Registeradmin() {
         })
         .catch(error => {
             console.error("SV Error:", error);
-            setErrors(prevErrors => ({ ...prevErrors, server: error.message || error.error || "An error occurred while registering the admin." }));
+            setErrors(prevErrors => ({ ...prevErrors, server: error.message || error.error || "An error occurred while registering the manager." }));
         })
         .finally(() => setLoading(false));
     };
@@ -84,20 +84,25 @@ export default function Registeradmin() {
     return (
         <div>
             <Navbar />
-            <div className="admins-container">
+            <div className="subnavbar">
+                <div>
+                    <span className="sub-title">Managers</span>
+                </div>
+            </div>
+            <div className="managers-container">
                 <div className="panel-container">
-                    <Link to="/admins/" className="button-goback">
+                    <Link to="/managers/" className="button-goback">
                         <FontAwesomeIcon icon={faArrowLeft} />
                     </Link>
                     <div className="title-container">
-                        <span>Register admin</span>
+                        <span>Register manager</span>
                     </div>
                     <div className="separator-line"></div>
-                    <form autoComplete="off" onSubmit={handleSubmit} className="panel-elements admins-form-container">
-                        <input name="name" placeholder="admin names" value={formData.name} onChange={handleChange} />
+                    <form autoComplete="off" onSubmit={handleSubmit} className="panel-elements managers-form-container">
+                        <input name="name" placeholder="manager names" value={formData.name} onChange={handleChange} />
                         {errors.name && <span className="error-message">{errors.name}</span>}
                         
-                        <input name="lastname" placeholder="admin last names" value={formData.lastname} onChange={handleChange} />
+                        <input name="lastname" placeholder="manager last names" value={formData.lastname} onChange={handleChange} />
                         {errors.lastname && <span className="error-message">{errors.lastname}</span>}
                         
                         <input name="documentid" placeholder="Document ID number" value={formData.documentid} onChange={handleChange} />
@@ -113,7 +118,7 @@ export default function Registeradmin() {
                         {errors.repeatPassword && <span className="error-message">{errors.repeatPassword}</span>}
                         
                         <button type="submit" disabled={loading}>
-                            {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Register admin"}
+                            {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Register manager"}
                         </button>
                         {errors.server && <span className="error-message">{errors.server}</span>}
                     </form>

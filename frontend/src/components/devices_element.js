@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 export default function Deviceselement(props) {
     const { device } = props;
+    const userData = JSON.parse(sessionStorage.getItem("user"));
+    const isAdmin = userData?.type === "admin";
 
     // Handle device deletion
     const handleRemoveDevice = () => {
@@ -31,13 +33,16 @@ export default function Deviceselement(props) {
 
     return (
         <div className="element-container">
-            <button className='remove-button' onClick={handleRemoveDevice}>X</button>
+            {isAdmin && <button className='remove-button' onClick={handleRemoveDevice}>X</button>}
+            
             <div>
                 <span>{device.name}</span>
                 <span>Device ID: {device.deviceid}</span>
                 <span>Type: {device.type}</span>
                 <span>Latitude: {device.lat}</span>
                 <span>Longitude: {device.lng}</span>
+                <span>Battery: {device.battery}</span>
+                <span>State: {device.state}</span>
             </div>
         </div>
     );

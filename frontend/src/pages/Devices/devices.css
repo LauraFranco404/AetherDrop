@@ -4,12 +4,18 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 10px;
+    height: 50px;
+    padding-left: 10px;
     
     border-bottom: 1px var(--gray-1) solid;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
+}
+
+.create-device-title{
+    font-weight: 900;
+    font-size: 20pt;
 }
 
 .create-device-button{
@@ -73,10 +79,7 @@
     padding: 20px;
 }
 
-.create-device-title{
-    font-weight: 900;
-    font-size: 20pt;
-}
+
 
 .create-device-menu{
     background-color: var(--background-color-1);

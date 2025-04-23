@@ -28,12 +28,15 @@ const iconSelected = new L.Icon({
 });
 
 function CreateDeliveries() {
+    const userData = JSON.parse(sessionStorage.getItem("user"));
+    const [clientID, SetClientID] = useState("");
+
     const [mode, setMode] = useState('add');
     const [nodes, setNodes] = useState([]);
     const [robot_connections, setRobotConnections] = useState([]);
     const [drone_connections, setDroneConnections] = useState([]);
     const [selectedNode, setSelectedNode] = useState(null);
-    const [connectionView, setConnectionView] = useState('drones'); // valor inicial: drones
+    const [connectionView, setConnectionView] = useState('drone');
     const [startNode, setStartNode] = useState(null);
     const [endNode, setEndNode] = useState(null);
     const [shortestPath, setShortestPath] = useState([]);
@@ -43,12 +46,18 @@ function CreateDeliveries() {
     const handleStartDelivery = () => {
         if (!startNode || !endNode) return;
         
-        fetch('http://127.0.0.1:8000/startdelivery/', {
+        fetch('http://127.0.0.1:8000/createdelivery/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-            start_id: startNode.id,
-            end_id: endNode.id,
+              start_id: startNode.id,
+              end_id: endNode.id,
+              start_name: startNode.name,
+              end_name: endNode.name,
+              managerid: userData.documentid,
+              clientid: Number(clientID),
+              device_type: connectionView,
+              state: "pending"
             }),
         })
             .then((res) => {
@@ -193,74 +202,81 @@ function CreateDeliveries() {
       return (
         <div>
           <Navbar />
+          <div className="subnavbar">
+              <div>
+                  <span className="sub-title">Deliveries Management</span>
+              </div>
+          </div>
           <div className="paths-container">
             <DeliveriesSideBar className="bar-skip" />
             <div className="paths-content bar-skip">
               <div className="paths-map">
-                <MapContainer
-                  center={center}
-                  zoom={17}
-                  minZoom={17}
-                  maxZoom={18}
-                  maxBounds={bounds}
-                  maxBoundsViscosity={1.0}
-                  style={{ height: '750px', width: '750px' }}
-                >
-                  <MapClickHandler />
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&copy; OpenStreetMap contributors"
-                  />
-    
-                  {nodes.map((node) => (
-                    <Marker
-                      key={node.id}
-                      position={[node.lat, node.lng]}
-                      icon={
-                        (startNode?.id === node.id || endNode?.id === node.id)
-                          ? iconSelected
-                          : iconDefault
-                      }
-                      eventHandlers={{ click: () => handleNodeClick(node) }}
-                      draggable={mode === 'move'}
-                    >
-                      <Tooltip direction="top" offset={[0, -10]} permanent>
-                        {node.name}
-                      </Tooltip>
-                    </Marker>
-                  ))}
-    
-                  {connectionView === 'drones' &&
-                    drone_connections.map(([a, b], index) => (
-                      <Polyline
-                        key={`drone-${index}`}
-                        positions={[resolvePosition(a), resolvePosition(b)]}
-                        color="blue"
-                      />
-                    ))}
-    
-                  {connectionView === 'robots' &&
-                    robot_connections.map(([a, b], index) => (
-                      <Polyline
-                        key={`robot-${index}`}
-                        positions={[resolvePosition(a), resolvePosition(b)]}
-                        color="red"
-                      />
-                    ))}
-    
-                  {/* Ruta más corta */}
-                  {shortestPath.length > 1 && (
-                    <Polyline
-                      positions={shortestPath.map((id) => resolvePosition(id))}
-                      color="green"
-                      weight={5}
+                <div className="map-wrapper">
+                  <MapContainer
+                    center={center}
+                    zoom={17}
+                    minZoom={17}
+                    maxZoom={18}
+                    maxBounds={bounds}
+                    maxBoundsViscosity={1.0}
+                    style={{ height: '750px', width: '750px' }}
+                  >
+                    <MapClickHandler />
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution="&copy; OpenStreetMap contributors"
                     />
-                  )}
-                </MapContainer>
+      
+                    {nodes.map((node) => (
+                      <Marker
+                        key={node.id}
+                        position={[node.lat, node.lng]}
+                        icon={
+                          (startNode?.id === node.id || endNode?.id === node.id)
+                            ? iconSelected
+                            : iconDefault
+                        }
+                        eventHandlers={{ click: () => handleNodeClick(node) }}
+                        draggable={mode === 'move'}
+                      >
+                        <Tooltip direction="top" offset={[0, -10]} permanent>
+                          {node.name}
+                        </Tooltip>
+                      </Marker>
+                    ))}
+      
+                    {connectionView === 'drone' &&
+                      drone_connections.map(([a, b], index) => (
+                        <Polyline
+                          key={`drone-${index}`}
+                          positions={[resolvePosition(a), resolvePosition(b)]}
+                          color="blue"
+                        />
+                      ))}
+      
+                    {connectionView === 'robots' &&
+                      robot_connections.map(([a, b], index) => (
+                        <Polyline
+                          key={`robot-${index}`}
+                          positions={[resolvePosition(a), resolvePosition(b)]}
+                          color="red"
+                        />
+                      ))}
+      
+                    {/* Ruta más corta */}
+                    {shortestPath.length > 1 && (
+                      <Polyline
+                        positions={shortestPath.map((id) => resolvePosition(id))}
+                        color="green"
+                        weight={5}
+                      />
+                    )}
+                  </MapContainer>
+                </div>
               </div>
     
               <div style={{ margin: '10px 0' }}>
-                <label style={{ marginRight: '10px' }}>Mostrar conexiones:</label>
+                <label style={{ marginRight: '10px' }}>Seleccionar dispositivo:</label>
                 <select
                   value={connectionView}
                   onChange={(e) => {
@@ -270,10 +286,12 @@ function CreateDeliveries() {
                     setShortestPath([]);
                   }}
                 >
-                  <option value="drones">Solo Drones</option>
-                  <option value="robots">Solo Robots</option>
+                  <option value="drone">Drone</option>
+                  <option value="robot">Robot</option>
                 </select>
-                {startNode && endNode && (
+          
+                <input placeholder='cliend id' type = "number"  value={clientID} onChange={(e)=> SetClientID(e.target.value)}></input>
+                {startNode && endNode && clientID.length > 0 && (
                 <div>
                     <p>Nodo inicial: {startNode.name}</p>
                     <p>Nodo final: {endNode.name}</p>

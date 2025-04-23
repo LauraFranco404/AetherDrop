@@ -22,14 +22,14 @@ export default function Deliveries() {
 
         // Selecciona la URL según el filtro
         switch (filter) {
-            case "today":
-                url = "http://127.0.0.1:8000/getdeliveriestoday/";
+            case "pending":
+                url = "http://127.0.0.1:8000/getpendingdeliveries/";
                 break;
-            case "last-week":
-                url = "http://127.0.0.1:8000/getdeliveriesthisweek/";
+            case "inprogress":
+                url = "http://127.0.0.1:8000/getinprogressdeliveries/";
                 break;
-            case "last-month":
-                url = "http://127.0.0.1:8000/getdeliveriesthismonth/";
+            case "finished":
+                url = "http://127.0.0.1:8000/getfinisheddeliveries/";
                 break;
             case "all":
             default:
@@ -44,7 +44,6 @@ export default function Deliveries() {
                 setDeliveries([]);
             } else {
                 const data = await response.json();
-                console.log(data);
                 setDeliveries(data || []);  // Asigna los datos obtenidos
             }
         } catch (error) {
@@ -64,6 +63,11 @@ export default function Deliveries() {
     return (
         <div>
             <Navbar />
+            <div className="subnavbar">
+                <div>
+                    <span className="sub-title">Deliveries Management</span>
+                </div>
+            </div>
             <div className="deliveries-container">
                 <DeliveriesSideBar className="bar-skip"></DeliveriesSideBar>
                 <div className="bar-skip fitright">
@@ -75,9 +79,9 @@ export default function Deliveries() {
                                 value={filter}
                                 onChange={handleFilterChange}
                             >
-                                <option value="today">Today</option>
-                                <option value="last-week">Last Week</option>
-                                <option value="last-month">Last Month</option>
+                                <option value="pending">Pending</option>
+                                <option value="inprogress">In Progress</option>
+                                <option value="finished">Finished</option>
                                 <option value="all">All</option>
                             </select>
                         </div>

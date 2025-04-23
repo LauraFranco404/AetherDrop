@@ -10,7 +10,7 @@ export default function Navbar() {
     const location = useLocation();
     const [selectedLink, setSelectedLink] = useState();
     const [menuOpen, setMenuOpen] = useState(false);
-    const adminsActive = location.pathname.startsWith("/admins");
+    const managersActive = location.pathname.startsWith("/managers");
     const deliveriesActive = location.pathname.startsWith("/deliveries");
     const pathsActive = location.pathname.startsWith("/paths");
 
@@ -29,16 +29,15 @@ export default function Navbar() {
             <Link to="/">
                 <img src="/POS_icon.png" alt="POS Logo" className={styles.iconStyle} />
             </Link>
-            
             <Link to={"/"} className={`${styles.navItem} ${selectedLink === "/" || selectedLink === "/home"? styles.selectedItem : ""}`}>
                 Home
             </Link>
             {isAdmin &&
-                <Link to={"/admins"} className={`${styles.navItem} ${adminsActive ? styles.selectedItem : ""}`}>
-                    Admins
+                <Link to={"/managers"} className={`${styles.navItem} ${managersActive ? styles.selectedItem : ""}`}>
+                    Managers
                 </Link>
             }
-            {isAdmin &&
+            {userData &&
                 <Link to={"/devices"} className={`${styles.navItem} ${selectedLink === "/devices" ? styles.selectedItem : ""}`}>
                     Devices
                 </Link>

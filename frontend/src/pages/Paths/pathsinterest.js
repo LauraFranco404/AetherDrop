@@ -112,45 +112,52 @@ function PathsInterestPoints() {
   return (
     <div>
       <Navbar />
+      <div className="subnavbar">
+        <div>
+            <span className="sub-title">Paths</span>
+        </div>
+      </div>
       <div className='paths-container'>
         <PathsSideBar className="bar-skip" />
         <div className='paths-content bar-skip'>
           <div className='paths-map'>
-            <MapContainer
-              center={center}
-              zoom={17}
-              minZoom={17}
-              maxZoom={18}
-              maxBounds={bounds}
-              maxBoundsViscosity={1.0}
-              style={{ height: '750px', width: '750px' }}
-            >
-              <MapClickHandler />
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; OpenStreetMap contributors'
-              />
-              {nodes.map((node) => (
-                <Marker
-                  key={node.id}
-                  position={[node.lat, node.lng]}
-                  icon={selectedNode && selectedNode.id === node.id ? iconSelected : iconDefault}
-                  eventHandlers={{ click: () => handleNodeClick(node) }}
-                >
-                  <Tooltip direction="top" offset={[0, -10]} permanent>
-                    {node.name || ''}
-                  </Tooltip>
-                </Marker>
-              ))}
+            <div className='map-wrapper'>
+              <MapContainer
+                center={center}
+                zoom={17}
+                minZoom={17}
+                maxZoom={18}
+                maxBounds={bounds}
+                maxBoundsViscosity={1.0}
+                style={{ height: '750px', width: '750px' }}
+              >
+                <MapClickHandler />
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; OpenStreetMap contributors'
+                />
+                {nodes.map((node) => (
+                  <Marker
+                    key={node.id}
+                    position={[node.lat, node.lng]}
+                    icon={selectedNode && selectedNode.id === node.id ? iconSelected : iconDefault}
+                    eventHandlers={{ click: () => handleNodeClick(node) }}
+                  >
+                    <Tooltip direction="top" offset={[0, -10]} permanent>
+                      {node.name || ''}
+                    </Tooltip>
+                  </Marker>
+                ))}
 
-              {drone_connections.map(([a, b], index) => (
-                <Polyline key={index} positions={[resolvePosition(a), resolvePosition(b)]} color="blue" />
-              ))}
+                {drone_connections.map(([a, b], index) => (
+                  <Polyline key={index} positions={[resolvePosition(a), resolvePosition(b)]} color="blue" />
+                ))}
 
-              {robot_connections.map(([a, b], index) => (
-                <Polyline key={index} positions={[resolvePosition(a), resolvePosition(b)]} color="red" />
-              ))}
-            </MapContainer>
+                {robot_connections.map(([a, b], index) => (
+                  <Polyline key={index} positions={[resolvePosition(a), resolvePosition(b)]} color="red" />
+                ))}
+              </MapContainer>
+            </div>
           </div>
 
           {selectedNode && (

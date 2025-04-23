@@ -30,7 +30,7 @@ function Home() {
           <div className="text-container">
             <span>Welcome, Admin!</span>
             <span>This is AetherDrop created for Processes and Software Design.</span>
-            <span>Click <Link to={"/admins"} className="login-link">here</Link> to administrate admins. Or Click <Link to={"/devices"} className="login-link">here</Link> to administrate devices.</span>
+            <span>Click <Link to={"/managers"} className="login-link">here</Link> to manageristrate managers. Or Click <Link to={"/devices"} className="login-link">here</Link> to manageristrate devices.</span>
           
           </div>
         </div> 
@@ -38,10 +38,9 @@ function Home() {
         { isLoggedIn && !isAdmin &&
         <div className="container">
           <div className="text-container">
-            <span>Welcome, Admin!</span>
+            <span>Welcome, Manager!</span>
             <span>This is the  Delivery (POS) created for Processes and Software Design.</span>
-            <span>Click <Link to={"/deliveries"} className="login-link">here</Link> to administrate deliveries.</span>
-          
+            <span>Click <Link to={"/deliveries"} className="login-link">here</Link> to manageristrate deliveries.</span>
           </div>
         </div> 
         }

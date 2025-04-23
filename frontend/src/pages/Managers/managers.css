@@ -7,6 +7,25 @@
     margin: 20px 20px 20px 20px;
 }
 
+.subnavbar
+{
+    background-color: var(--background-color-1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    border-bottom: 1px var(--gray-1) solid;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.sub-title{
+    font-weight: 900;
+    font-size: 20pt;
+}
+
 .separator-line{
     width: 100%;
     background-color: var(--gray-1);
@@ -18,7 +37,7 @@
     color: var(--primary-color-3);
 }
 
-.admins-container{
+.managers-container{
     display: flex;
     align-items: center;
     justify-content: center;

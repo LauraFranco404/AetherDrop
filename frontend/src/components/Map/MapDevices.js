@@ -42,7 +42,8 @@ const MapView = ({ points = [] }) => {
         maxZoom={18}
         maxBounds={bounds}
         maxBoundsViscosity={1.0}
-        className="map-container"
+        style={{ height: '750px', width: '750px' }}
+
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

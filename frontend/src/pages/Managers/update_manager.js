@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Adminspanel from "../../components/adminsPanel/admins_panel";
+import Managerspanel from "../../components/ManagersPanel/managers_panel";
 import Navbar from "../../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import './admins_management.css';
-import './admins_form.css';
+import './managers.css';
+import './managers_form.css';
 
-export default function Updateadmin() {
+export default function Updatemanager() {
     const [documentid, setDocumentid] = useState("");
-    const [admin, setadmin] = useState(null);
+    const [manager, setmanager] = useState(null);
     const [formData, setFormData] = useState({ name: "", lastname: "", datebirth: "", password: "", repeatPassword: "" });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -47,11 +47,11 @@ export default function Updateadmin() {
         }
         setLoading(true);
         try {
-            const response = await fetch(`http://127.0.0.1:8000/getadminbyid/?documentid=${documentid}`);
+            const response = await fetch(`http://127.0.0.1:8000/getmanagerbyid/?documentid=${documentid}`);
             const data = await response.json();
             console.log(data);
-            if (!response.ok) throw new Error(data.error || "Failed to fetch admin");
-            setadmin(data.admin);
+            if (!response.ok) throw new Error(data.error || "Failed to fetch manager");
+            setmanager(data.manager);
         } catch (error) {
             setErrors({ fetch: error.message });
         } finally {
@@ -60,10 +60,10 @@ export default function Updateadmin() {
     };
 
     useEffect(() => {
-        if (admin) {
-            setFormData({ name: admin.name || "", lastname: admin.lastname || "", datebirth: admin.datebirth || "", password: "", repeatPassword: "" });
+        if (manager) {
+            setFormData({ name: manager.name || "", lastname: manager.lastname || "", datebirth: manager.datebirth || "", password: "", repeatPassword: "" });
         }
-    }, [admin]);
+    }, [manager]);
 
     const handleUpdate = async (e) => {
         e.preventDefault();
@@ -78,7 +78,7 @@ export default function Updateadmin() {
             password: formData.password
         };
 
-        fetch("http://127.0.0.1:8000/updateadmin/", {
+        fetch("http://127.0.0.1:8000/updatemanager/", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dataToSend)
@@ -92,7 +92,7 @@ export default function Updateadmin() {
         })
         .catch(error => {
             console.error("SV Error:", error);
-            setErrors(prevErrors => ({ ...prevErrors, server:  error.error || "An error occurred while updating the admin." }));
+            setErrors(prevErrors => ({ ...prevErrors, server:  error.error || "An error occurred while updating the manager." }));
         })
         .finally(() => setUpdating(false));
     };
@@ -100,27 +100,32 @@ export default function Updateadmin() {
     return (
         <div>
             <Navbar/>
-            <div className="admins-container">
+            <div className="subnavbar">
+                <div>
+                    <span className="sub-title">Managers</span>
+                </div>
+            </div>
+            <div className="managers-container">
                 <div className="panel-container">
-                    <Link to="/admins/" className="button-goback">
+                    <Link to="/managers/" className="button-goback">
                         <FontAwesomeIcon icon={faArrowLeft} />
                     </Link>
                     <div className="title-container">
-                        <span>Update admin</span>
+                        <span>Update manager</span>
                     </div>
                     <div className="separator-line"></div>
-                    <form autoComplete="off" onSubmit={handleSearch} className="panel-elements admins-form-container">
+                    <form autoComplete="off" onSubmit={handleSearch} className="panel-elements managers-form-container">
                         <input placeholder="Document ID number" value={documentid} onChange={(e) => setDocumentid(e.target.value)} />
                         {errors.documentid && <span className="error-message">{errors.documentid}</span>}
                         <button type="submit" disabled={loading}>{loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Find"}</button>
                         {errors.fetch && <span className="error-message">{errors.fetch}</span>}
                     </form>
-                    {admin && <div className="separator-line"></div>}
-                    {admin && (
-                    <form autoComplete="off" onSubmit={handleUpdate} className="panel-elements admins-form-container">
-                        <input placeholder="admin names" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                    {manager && <div className="separator-line"></div>}
+                    {manager && (
+                    <form autoComplete="off" onSubmit={handleUpdate} className="panel-elements managers-form-container">
+                        <input placeholder="manager names" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
                         {errors.name && <span className="error-message">{errors.name}</span>}
-                        <input placeholder="admin last names" value={formData.lastname} onChange={(e) => setFormData({ ...formData, lastname: e.target.value })} />
+                        <input placeholder="manager last names" value={formData.lastname} onChange={(e) => setFormData({ ...formData, lastname: e.target.value })} />
                         {errors.lastname && <span className="error-message">{errors.lastname}</span>}
                         <input placeholder="Birth date DD/MM/YYYY" value={formData.datebirth} onChange={(e) => setFormData({ ...formData, datebirth: e.target.value })} />
                         {errors.datebirth && <span className="error-message">{errors.datebirth}</span>}
@@ -128,12 +133,12 @@ export default function Updateadmin() {
                         {errors.password && <span className="error-message">{errors.password}</span>}
                         <input type="password" placeholder="Repeat new password" value={formData.repeatPassword} onChange={(e) => setFormData({ ...formData, repeatPassword: e.target.value })} />
                         {errors.repeatPassword && <span className="error-message">{errors.repeatPassword}</span>}
-                        <button type="submit" disabled={updating}>{updating ? <FontAwesomeIcon icon={faSpinner} spin /> : "Update admin"}</button>
+                        <button type="submit" disabled={updating}>{updating ? <FontAwesomeIcon icon={faSpinner} spin /> : "Update manager"}</button>
                         {errors.server && <span className="error-message">{errors.server}</span>}
                     </form>
                     )}
                 </div>    
-                <Adminspanel></Adminspanel>
+                <Managerspanel></Managerspanel>
             </div>
         </div>
     );

@@ -85,18 +85,25 @@ function Paths() {
   return (
     <div>
     <Navbar></Navbar>
+    <div className="subnavbar">
+        <div>
+            <span className="sub-title">Paths</span>
+        </div>
+    </div>
     <div className='paths-container'>
         <PathsSideBar className="bar-skip"></PathsSideBar>
         <div className='paths-content bar-skip'>
             <div className='paths-map'>
+              <div className='map-wrapper'>
+
                 <MapContainer
-                    center={center}
-                    zoom={17}
-                    minZoom={17}
-                    maxZoom={18}
-                    maxBounds={bounds}
-                    maxBoundsViscosity={1.0}
-                    style={{ height: '750px', width: '750px' }}
+                  center={center}
+                  zoom={17}
+                  minZoom={17}
+                  maxZoom={18}
+                  maxBounds={bounds}
+                  maxBoundsViscosity={1.0}
+                  style={{ height: '750px', width: '750px' }}
                 >
                 
                 <MapClickHandler />
@@ -136,7 +143,7 @@ function Paths() {
                     />
                     ))}
                 </MapContainer>
-                
+              </div>
             </div>
             <div style={{ marginBottom: '10px' }}>
               <label style={{ marginLeft: '10px' }}>

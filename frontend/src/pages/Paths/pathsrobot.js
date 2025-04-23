@@ -166,10 +166,17 @@ function PathsRobot() {
   return (
     <div>
     <Navbar></Navbar>
+    <div className="subnavbar">
+        <div>
+            <span className="sub-title">Paths</span>
+        </div>
+    </div>
     <div className='paths-container'>
         <PathsSideBar className="bar-skip"></PathsSideBar>
         <div className='paths-content bar-skip'>
             <div className='paths-map'>
+              <div className='map-wrapper'>
+
                 <MapContainer
                     center={center}
                     zoom={17}
@@ -215,6 +222,7 @@ function PathsRobot() {
                     />
                     ))}
                 </MapContainer>
+              </div>
                 
             </div>
             <div style={{ marginBottom: '10px' }}>

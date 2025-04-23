@@ -9,6 +9,34 @@
     width: 100%;
 }
 
+.map-wrapper {
+    overflow: hidden;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+  
+
+.subnavbar
+{
+    background-color: var(--background-color-1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    border-bottom: 1px var(--gray-1) solid;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.sub-title{
+    font-weight: 900;
+    font-size: 20pt;
+}
+
+
 .fitright{
     width: 100%;
 }
@@ -20,7 +48,7 @@
 }
 
 .bar-skip{
-    padding-top: 60px;
+    padding-top: 110px;
 }
 
 .deliveries-header {
@@ -41,7 +69,7 @@
     outline: 1px solid var(--primary-color-2);
 }
 
-.admins-panel{
+.managers-panel{
     padding: 200px 20px 0 0;
 }
 
@@ -72,7 +100,7 @@
     background-color: var(--primary-color-4);
 }
 
-.device-form input, .admin-form input{
+.device-form input, .manager-form input{
     padding: 10px;
     border-radius: 10px 0 0 10px;
     border-style: none;
@@ -80,12 +108,12 @@
     outline: 1px var(--gray-2) solid;
 }
 
-.device-form input:focus, .admin-form input:focus{
+.device-form input:focus, .manager-form input:focus{
     outline: 1px var(--primary-color-3) solid;
 }
 
 
-.device-form button, .admin-form button{
+.device-form button, .manager-form button{
     padding: 10px;
     border-radius: 0 10px 10px 0;
     border-style: none;
@@ -94,7 +122,7 @@
     font-weight: 700;
     outline: 1px var(--primary-color-3) solid;
 }
-.device-form button:hover, .admin-form button:hover{
+.device-form button:hover, .manager-form button:hover{
     background-color: var(--primary-color-3);
 }
 

@@ -6,6 +6,9 @@ import MapDevices from "../../components/Map/MapDevices";
 
 
 export default function Storedevices() {
+    const userData = JSON.parse(sessionStorage.getItem("user"));
+    const isAdmin = userData?.type === "admin";
+
     const [isMenuVisible, setMenuVisible] = useState(false); // State to control menu visibility
     const [elements, setElements] = useState([]); // State for devices
     const [formData, setFormData] = useState({
@@ -14,9 +17,9 @@ export default function Storedevices() {
         type: "drone",
         lat: 3.347133,
         lng: -76.533004,
+        state: "available",
+        battery: 100
     });
-    
-
     // Fetch devices from the API
     useEffect(() => {
         fetch("http://127.0.0.1:8000/getalldevices/")
@@ -76,7 +79,9 @@ export default function Storedevices() {
             name: formData.name,
             type: formData.type,
             lat: formData.lat,
-            lng: formData.lng
+            lng: formData.lng,
+            state: formData.state,
+            battery: formData.battery,
         };
         
 
@@ -116,14 +121,15 @@ export default function Storedevices() {
                 <div>
                     <span className="devices-title">Devices Management</span>
                 </div>
-                <div>
+                {isAdmin && <div>
+                    
                     <button
                         className={isMenuVisible ? "create-device-button-pressed" : "create-device-button"}
                         onClick={toggleMenu}
                     >
                         Create Device
                     </button>
-                </div>
+                </div>}
             </div>
             <div className="devices-container">
                 <div className="devices-location">

@@ -1,19 +1,19 @@
-.admins-form-container{
+.managers-form-container{
 
 }
 
-.admins-form-container input{
+.managers-form-container input{
     padding: 10px;
     border-radius: 10px;
     border-style: none;
     background-color: var(--background-color-3);
 }
 
-.admins-form-container input:focus{
+.managers-form-container input:focus{
     outline: 1px var(--primary-color-3) solid;
 }
 
-.admins-form-container button{
+.managers-form-container button{
     padding: 10px;
     border-radius: 10px;
     border-style: none;
@@ -21,7 +21,7 @@
     color: var(--text-color-1);
 }
 
-.admins-form-container button:hover{
+.managers-form-container button:hover{
     background-color: var(--primary-color-2);
 }
 
