@@ -95,7 +95,6 @@ function Paths() {
         <div className='paths-content bar-skip'>
             <div className='paths-map'>
               <div className='map-wrapper'>
-
                 <MapContainer
                   center={center}
                   zoom={17}
